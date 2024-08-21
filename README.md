@@ -73,7 +73,7 @@ This will start the following services:
 ###  4. Install PHP Dependencies in API && CLIENT microservices and generate keys
 Access the Laravel container and install the PHP dependencies:
 ```bash
-sudo docker-compose exec api bash
+sudo docker compose exec api bash
 composer install
 php artisan key:generate
 ```
@@ -96,13 +96,13 @@ php artisan mqtt:listen
 ### Searching for a TV Show
 ### Send a request to the search endpoint to search for a TV show:
 ```bash
--GET /search?query=show-name
+GET /search?query=show-name
 ```
 
 This will:
 
 - Check if the result is cached in Redis.
-- If not, send the search query to RabbitMQ via MQTT.
+- If not, send the search query to RabbitMQ QUEUES via MQTT.
 - Receive the result via MQTT.
 - Return the response to the client.
 ### Troubleshooting
@@ -111,3 +111,13 @@ This will:
   sudo chown -R www-data:www-data storage bootstrap/cache
   sudo chmod -R 775 storage bootstrap/cache
 ```
+
+Summary of Commands
+- Start Docker Containers: sudo docker compose up -d --build
+- Start Docker Containers: sudo docker compose exec api|client bash
+- Install PHP Dependencies: composer install
+- Generate App Key: php artisan key:generate
+- Run Queue Worker: php artisan queue:work
+
+ANSWER ON FUTURE SCALE
+In this challenge was to show how we can work with API and expand our own API in the future. Adding more API microservices or scale already created microservices, we can scale and develop our own API.
