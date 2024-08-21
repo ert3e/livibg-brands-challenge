@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto
+    container_name: mqtt-broker
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    ports:
+      - "1883:1883"  # MQTT port
+    networks:
+      - app-network
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    restart: unless-stopped
+    volumes:
+      - ./client:/var/www
+      - ./client/storage:/var/www/storage
+      - ./client/bootstrap/cache:/var/www/bootstrap/cache
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
+      - redis
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: api
+    restart: unless-stopped
+    volumes:
+      - ./api:/var/www
+      - ./api/storage:/var/www/storage
+      - ./api/bootstrap/cache:/var/www/bootstrap/cache
+    networks:
+      - app-network
+    depends_on:
+      - rabbitmq
+      - redis
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./client:/var/www # Ensure correct mapping
+    networks:
+      - app-network
+    depends_on:
+      - client
+      - api
+      - storage
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
