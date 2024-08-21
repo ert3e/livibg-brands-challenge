@@ -7,7 +7,10 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "php-amqplib/rabbitmq-bundle": "^2.16",
+        "php-mqtt/client": "^2.1",
+        "predis/predis": "^2.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
