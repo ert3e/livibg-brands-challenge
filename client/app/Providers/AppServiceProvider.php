@@ -21,8 +21,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(SearchRepositoryInterface::class, RedisSearchRepository::class);
         $this->app->bind(MqttClientInterface::class, MqttClient::class);
-        $this->app->bind(MqttPublisherInterface::class, MqttPublisher::class);
-        $this->app->bind(MqttListenInterface::class, MqttListener::class);
     }
 
     /**
