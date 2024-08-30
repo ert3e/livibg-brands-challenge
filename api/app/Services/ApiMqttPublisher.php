@@ -10,7 +10,7 @@ use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
 use Illuminate\Support\Facades\Log;
 
-class MqttPublisher
+class ApiMqttPublisher
 {
 
     /**
@@ -23,6 +23,10 @@ class MqttPublisher
             $clientId = 'laravel_mqtt_api_publisher';
             $brokerHost = env('MQTT_BROKER_HOST');
             $brokerPort = env('MQTT_BROKER_PORT');
+
+            if (empty($brokerHost) ||empty($brokerPort)) {
+                throw new ConfigurationInvalidException("Configuration is missing");
+            }
 
             $this->mqtt = new MqttClient($brokerHost, $brokerPort, $clientId . $correlationId);
             $this->mqtt->connect();

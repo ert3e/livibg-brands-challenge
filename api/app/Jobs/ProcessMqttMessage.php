@@ -5,7 +5,7 @@ namespace App\Jobs;
 
 namespace App\Jobs;
 
-use App\Services\MqttPublisher;
+use App\Services\ApiMqttPublisher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -38,7 +38,7 @@ class ProcessMqttMessage implements ShouldQueue
      */
     public function handle()
     {
-        $this->mqttPublisher = new MqttPublisher();
+        $this->mqttPublisher = new ApiMqttPublisher();
         $search = json_decode($this->message, true);
 
         $searchQuery = $search['query'];
@@ -61,8 +61,7 @@ class ProcessMqttMessage implements ShouldQueue
             ->values();
 
         // Publish the response back to the MQTT topic
-        $this->mqttPublisher->publish('response/tvshow',
-            json_encode([
+        $this->mqttPublisher->publish('response/tvshow', json_encode([
                 'correlation_id' => $correlationId,
                 'results' => $results
             ])

@@ -8,7 +8,7 @@ use App\Services\MqttClient;
 use App\Services\MqttClientInterface;
 use App\Services\MqttListener;
 use App\Services\MqttListenInterface;
-use App\Services\MqttPublisher;
+use App\Services\ApiMqttPublisher;
 use App\Services\MqttPublisherInterface;
 use Illuminate\Support\ServiceProvider;
 

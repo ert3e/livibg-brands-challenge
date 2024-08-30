@@ -17,8 +17,9 @@ class MqttClient extends BaseMqtt implements MqttClientInterface
 {
     public $clientId = 'laravel_mqtt_client';
     public $correlationId;
+
     /**
-     * @throws ProtocolNotSupportedException
+     * @throws ConfigurationInvalidException
      */
     public function __construct()
     {

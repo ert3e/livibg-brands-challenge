@@ -14,10 +14,8 @@ use PhpMqtt\Client\Exceptions\ProtocolNotSupportedException;
 use PhpMqtt\Client\Exceptions\ProtocolViolationException;
 use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
-use PhpMqtt\Client\ConnectionSettings;
-use PhpMqtt\Client\MqttClient as BaseMqttClient;
 
-class MqttListener
+class ApiMqttListener
 {
     protected $mqtt;
 
@@ -26,7 +24,7 @@ class MqttListener
      */
     public function __construct()
     {
-        $clientId = 'laravel_mqtt_client_listener';
+        $clientId = 'laravel_mqtt_api_listener';
         $brokerHost = env('MQTT_BROKER_HOST');
         $brokerPort = env('MQTT_BROKER_PORT');
 
@@ -34,9 +32,12 @@ class MqttListener
             throw new ConfigurationInvalidException("Configuration is missing");
         }
         try {
-            $this->mqtt = new BaseMqttClient($brokerHost, $brokerPort, $clientId);
+            $this->mqtt = new MqttClient($brokerHost, $brokerPort, $clientId);
+            $this->mqtt->connect();
         } catch (ProtocolNotSupportedException $e) {
             Log::error('MQTT connection failed: ' . $e->getMessage());
+        } catch (ConfigurationInvalidException $e) {
+        } catch (ConnectingToBrokerFailedException $e) {
         }
     }
 

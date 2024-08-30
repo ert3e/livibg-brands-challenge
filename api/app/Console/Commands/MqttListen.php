@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Services\ApiMqttListener;
 use Illuminate\Console\Command;
-use App\Services\MqttListener;
 use PhpMqtt\Client\Exceptions\DataTransferException;
 use PhpMqtt\Client\Exceptions\InvalidMessageException;
 use PhpMqtt\Client\Exceptions\MqttClientException;
@@ -29,7 +29,7 @@ class MqttListen extends Command
      */
     public function handle()
     {
-        $listener = new MqttListener();
+        $listener = new ApiMqttListener();
         $listener->listen();
     }
 }
