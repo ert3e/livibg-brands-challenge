@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\SearchService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use PhpMqtt\Client\ConnectionSettings;
 use PhpMqtt\Client\Exceptions\ConfigurationInvalidException;
@@ -26,7 +27,7 @@ class TvShowSearchController
 
     /**
      */
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
         $searchQuery = $request->input('query');
 
