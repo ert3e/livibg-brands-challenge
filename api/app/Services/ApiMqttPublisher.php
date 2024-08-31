@@ -10,30 +10,18 @@ use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
 use Illuminate\Support\Facades\Log;
 
-class ApiMqttPublisher
+class ApiMqttPublisher extends BaseApiMqtt
 {
+    public string $client = 'laravel_mqtt_api_publisher';
 
     /**
      */
     public function __construct()
     {
-        try {
-            $correlationId = uniqid();
+        $correlationId = uniqid();
+        $this->clientId = $this->client . $correlationId;
+        parent::__construct();
 
-            $clientId = 'laravel_mqtt_api_publisher';
-            $brokerHost = env('MQTT_BROKER_HOST');
-            $brokerPort = env('MQTT_BROKER_PORT');
-
-            if (empty($brokerHost) ||empty($brokerPort)) {
-                throw new ConfigurationInvalidException("Configuration is missing");
-            }
-
-            $this->mqtt = new MqttClient($brokerHost, $brokerPort, $clientId . $correlationId);
-            $this->mqtt->connect();
-        } catch (ProtocolNotSupportedException | ConfigurationInvalidException | ConnectingToBrokerFailedException $e) {
-            Log::error('MQTT connection failed: ' . $e->getMessage());
-            // Handle the exception as needed, possibly rethrow or return a fallback
-        }
     }
 
     /**
@@ -43,7 +31,7 @@ class ApiMqttPublisher
      * @param string $message
      * @throws DataTransferException
      */
-    public function publish($topic, string $message)
+    public function publish(string $topic, string $message)
     {
         try {
             $this->mqtt->publish($topic, $message, MqttClient::QOS_AT_MOST_ONCE);

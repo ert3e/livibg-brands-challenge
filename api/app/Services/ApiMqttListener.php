@@ -15,30 +15,17 @@ use PhpMqtt\Client\Exceptions\ProtocolViolationException;
 use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
 
-class ApiMqttListener
+class ApiMqttListener extends BaseApiMqtt
 {
-    protected $mqtt;
+
+    public string $client = 'laravel_mqtt_api_publisher';
 
     /**
      * @throws ConfigurationInvalidException
      */
     public function __construct()
     {
-        $clientId = 'laravel_mqtt_api_listener';
-        $brokerHost = env('MQTT_BROKER_HOST');
-        $brokerPort = env('MQTT_BROKER_PORT');
-
-        if (empty($brokerHost) ||empty($brokerPort)) {
-            throw new ConfigurationInvalidException("Configuration is missing");
-        }
-        try {
-            $this->mqtt = new MqttClient($brokerHost, $brokerPort, $clientId);
-            $this->mqtt->connect();
-        } catch (ProtocolNotSupportedException $e) {
-            Log::error('MQTT connection failed: ' . $e->getMessage());
-        } catch (ConfigurationInvalidException $e) {
-        } catch (ConnectingToBrokerFailedException $e) {
-        }
+        parent::__construct();
     }
 
     /**
