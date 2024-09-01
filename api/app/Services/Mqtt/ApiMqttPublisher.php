@@ -9,7 +9,7 @@ use PhpMqtt\Client\MqttClient;
 
 class ApiMqttPublisher extends BaseApiMqtt implements ApiMqttPublisherInterface
 {
-    public string $client = 'laravel_mqtt_api_publisher';
+    public string $clientId = 'laravel_mqtt_api_publisher';
     /**
      */
     public function __construct()
@@ -50,6 +50,6 @@ class ApiMqttPublisher extends BaseApiMqtt implements ApiMqttPublisherInterface
     }
     public function createCorrelationClientId(): void
     {
-        $this->clientId = $this->client . uniqid();
+        $this->clientId = $this->clientId . uniqid();
     }
 }

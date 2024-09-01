@@ -13,7 +13,7 @@ use PhpMqtt\Client\MqttClient;
 class ApiMqttListener extends BaseApiMqtt implements ApiMqttListenerInterface
 {
 
-    public string $client = 'laravel_mqtt_api_listener';
+    public string $clientId = 'laravel_mqtt_api_listener';
 
     /**
      */
