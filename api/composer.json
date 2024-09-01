@@ -12,6 +12,7 @@
         "php-amqplib/php-amqplib": "^3.7",
         "php-amqplib/rabbitmq-bundle": "^2.16",
         "php-mqtt/client": "^2.1",
+        "spatie/laravel-data": "^4.8",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.1"
     },
     "require-dev": {
