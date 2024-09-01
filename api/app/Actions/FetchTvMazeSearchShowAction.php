@@ -2,13 +2,15 @@
 
 namespace App\Actions;
 
+use App\DTO\TvShowDTO;
 use App\Enums\ApiActionUrl;
 use App\Enums\ApiActionUrlParameters;
 use Illuminate\Support\Facades\Http;
-use function Symfony\Component\Translation\t;
 
-class FetchTvMazeShowAction
+class FetchTvMazeSearchShowAction
 {
+    public string $url = ApiActionUrl::SEARCH_SHOWS->value;
+    public string $parameter = ApiActionUrlParameters::SEARCH_SHOWS_PARAMETER->value;
     /**
      * @throws \Exception
      */
@@ -16,8 +18,8 @@ class FetchTvMazeShowAction
     {
         // Make the API request to search for the TV show
         try {
-            $response = Http::get(ApiActionUrl::SEARCH_SHOWS->value, [
-                ApiActionUrlParameters::SEARCH_SHOWS_PARAMETER->value => $query
+            $response = Http::get($this->url, [
+                $this->parameter => $query
             ]);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
@@ -25,7 +27,7 @@ class FetchTvMazeShowAction
 
         // Handle the response
         if ($response->successful()) {
-            return $response->json();
+            return collect($response->json())->map(fn($item) => TvShowDTO::from($item));
         }
 
         // Handle any errors
