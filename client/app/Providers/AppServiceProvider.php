@@ -6,10 +6,6 @@ use App\Repositories\RedisSearchRepository;
 use App\Repositories\SearchRepositoryInterface;
 use App\Services\MqttClient;
 use App\Services\MqttClientInterface;
-use App\Services\MqttListener;
-use App\Services\MqttListenInterface;
-use App\Services\ApiMqttPublisher;
-use App\Services\MqttPublisherInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

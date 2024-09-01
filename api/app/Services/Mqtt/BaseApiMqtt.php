@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\Mqtt;
 
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Exceptions\ConfigurationInvalidException;
