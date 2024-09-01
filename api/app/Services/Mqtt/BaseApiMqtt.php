@@ -19,7 +19,7 @@ class BaseApiMqtt
             $brokerHost = env('MQTT_BROKER_HOST');
             $brokerPort = env('MQTT_BROKER_PORT');
 
-           if (empty($brokerHost) ||empty($brokerPort)) {
+           if (empty($brokerHost) || empty($brokerPort)) {
                throw new ConfigurationInvalidException("Configuration is missing");
            }
 

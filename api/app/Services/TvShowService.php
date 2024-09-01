@@ -15,16 +15,18 @@ class TvShowService implements TvShowServiceInterface
         $this->fetchTvMazeShowAction = $fetchTvMazeShowAction;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function searchShows(string $request): array
     {
         $results = $this->fetchTvMazeShowAction->execute($request);
 
-        $results = collect($results)
+        return collect($results)
             ->pluck('show')
             ->filter(function ($show) use ($request) {
                 return strcasecmp($show['name'], $request) === 0;
             })
             ->values();
-        return $results;
     }
 }

@@ -17,9 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(TvShowService::class, TvShowServiceInterface::class);
-        $this->app->bind(ApiMqttListener::class, ApiMqttListenerInterface::class);
-        $this->app->bind(ApiMqttPublisher::class, ApiMqttPublisherInterface::class);
+        $this->app->bind(TvShowServiceInterface::class, TvShowService::class);
+        $this->app->bind(ApiMqttListenerInterface::class, ApiMqttListener::class);
+        $this->app->bind(ApiMqttPublisherInterface::class, ApiMqttPublisher::class, );
     }
 
     /**
