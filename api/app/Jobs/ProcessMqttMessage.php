@@ -5,8 +5,9 @@ namespace App\Jobs;
 
 namespace App\Jobs;
 
+use App\Services\ApiService;
 use App\Services\Mqtt\ApiMqttPublisher;
-use App\Services\TvShowService;
+use App\Services\TvMazeService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,7 +22,6 @@ class ProcessMqttMessage implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $message;
-    protected $mqttPublisher;
 
     /**
      * Create a new job instance.
@@ -36,26 +36,12 @@ class ProcessMqttMessage implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param ApiService $apiService
      * @return void
      * @throws DataTransferException
      */
-    public function handle(TvShowService $tvShowService, ApiMqttPublisher $mqttPublisher): void
+    public function handle(ApiService $apiService): void
     {
-
-        $search = json_decode($this->message, true);
-
-        $searchQuery = $search['query'];
-        $correlationId = json_decode($this->message, true)['correlation_id'];
-
-        $results = $tvShowService->searchShows($searchQuery);
-
-
-        // Publish the response back to the MQTT topic
-        $mqttPublisher->publish('response/tvshow', json_encode([
-                'correlation_id' => $correlationId,
-                'results' => $results
-            ])
-        );
-        Log::info('Processed and published search results for: ' . $searchQuery);
+        $apiService->execute(json_decode($this->message, true));
     }
 }

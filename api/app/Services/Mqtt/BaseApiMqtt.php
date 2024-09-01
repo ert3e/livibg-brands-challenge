@@ -22,7 +22,7 @@ class BaseApiMqtt
            if (empty($brokerHost) || empty($brokerPort)) {
                throw new ConfigurationInvalidException("Configuration is missing");
            }
-
+           Log::error('clientId: ' . $this->clientId);
            $this->mqtt = new MqttClient($brokerHost, $brokerPort, $this->clientId);
            $this->mqtt->connect();
        } catch (ProtocolNotSupportedException | ConfigurationInvalidException | ConnectingToBrokerFailedException $e) {

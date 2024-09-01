@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 class MqttListen extends Command
 {
     protected $signature = 'mqtt:listen';
+    protected string $defaultChanel = 'search/tvshow';
     protected $description = 'Listen for MQTT messages and dispatch jobs';
     private $mqttListener;
 
@@ -20,8 +21,8 @@ class MqttListen extends Command
 
     /**
      */
-    public function handle(ApiMqttListener $listener)
+    public function handle()
     {
-        $this->mqttListener->listen();
+        $this->mqttListener->listen($this->defaultChanel);
     }
 }

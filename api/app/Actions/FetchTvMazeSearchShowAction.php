@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\DTO\TvShowDTO;
 use App\Enums\ApiActionUrl;
 use App\Enums\ApiActionUrlParameters;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class FetchTvMazeSearchShowAction
@@ -14,7 +15,7 @@ class FetchTvMazeSearchShowAction
     /**
      * @throws \Exception
      */
-    public function execute(string $query)
+    public function execute(string $query): ?Collection
     {
         // Make the API request to search for the TV show
         try {

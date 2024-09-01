@@ -4,11 +4,11 @@ namespace App\Services;
 
 use App\Actions\FetchTvMazeSearchShowAction;
 use App\Services\Mqtt\ApiMqttPublisher;
+use Illuminate\Support\Collection;
 
-class TvShowService implements TvShowServiceInterface
+class TvMazeService implements TvShowServiceInterface
 {
     private FetchTvMazeSearchShowAction $fetchTvMazeShowAction;
-    private ApiMqttPublisher $apiMqttPublisher;
 
     public function __construct(FetchTvMazeSearchShowAction $fetchTvMazeShowAction)
     {
@@ -22,11 +22,16 @@ class TvShowService implements TvShowServiceInterface
     {
         $results = $this->fetchTvMazeShowAction->execute($request);
 
+        return $this->filterUniqShowByRequest($results, $request);
+    }
+
+    public function filterUniqShowByRequest(Collection $results, string $request): array
+    {
         return collect($results)
             ->pluck('show')
             ->filter(function ($show) use ($request) {
-                return strcasecmp($show['name'], $request) === 0;
+                return strcasecmp($show->name, $request) === 0;
             })
-            ->values();
+            ->values()->toArray();
     }
 }

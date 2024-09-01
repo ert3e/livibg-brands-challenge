@@ -19,12 +19,12 @@ class ShowDTO extends Data
     public ?string $ended;
     public ?string $officialSite;
     public array $schedule;
-    public ?float $rating;
+    public array $rating;
     public int $weight;
     public ?array $network;
     public ?array $webChannel;
     public ?array $externals;
-    public ?array $image;
+    public ?object $image;
     public string $summary;
     public ?array $links;
 }

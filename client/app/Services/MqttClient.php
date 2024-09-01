@@ -6,11 +6,9 @@ use PhpMqtt\Client\Exceptions\ConnectingToBrokerFailedException;
 use PhpMqtt\Client\Exceptions\DataTransferException;
 use PhpMqtt\Client\Exceptions\InvalidMessageException;
 use PhpMqtt\Client\Exceptions\MqttClientException;
-use PhpMqtt\Client\Exceptions\ProtocolNotSupportedException;
 use PhpMqtt\Client\Exceptions\ProtocolViolationException;
 use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient as BaseMqttClient;
-use PhpMqtt\Client\ConnectionSettings;
 use Illuminate\Support\Facades\Redis;
 
 class MqttClient extends BaseMqtt implements MqttClientInterface
@@ -23,7 +21,7 @@ class MqttClient extends BaseMqtt implements MqttClientInterface
      */
     public function __construct()
     {
-        parent::__construct($this->clientId .  $this->correlationId);
+        parent::__construct($this->clientId .  uniqid());
     }
 
     /**
