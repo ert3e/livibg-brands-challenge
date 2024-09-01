@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use App\Services\TvMazeService;
 use App\Actions\FetchTvMazeSearchShowAction;
-use App\DataTransferObjects\ShowDTO;
+use App\DTO\ShowDTO;
 use Mockery;
 use Illuminate\Support\Collection;
 
