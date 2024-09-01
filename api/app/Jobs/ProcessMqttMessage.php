@@ -5,7 +5,7 @@ namespace App\Jobs;
 
 namespace App\Jobs;
 
-use App\Services\ApiMqttPublisher;
+use App\Services\Mqtt\ApiMqttPublisher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
