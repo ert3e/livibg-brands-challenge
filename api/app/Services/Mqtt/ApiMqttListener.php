@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Mqtt;
 
 use App\Jobs\ProcessMqttMessage;
-
-use Illuminate\Support\Facades\Log;
-use PhpMqtt\Client\Exceptions\ConfigurationInvalidException;
-use PhpMqtt\Client\Exceptions\ConnectingToBrokerFailedException;
 use PhpMqtt\Client\Exceptions\DataTransferException;
 use PhpMqtt\Client\Exceptions\InvalidMessageException;
 use PhpMqtt\Client\Exceptions\MqttClientException;
-use PhpMqtt\Client\Exceptions\ProtocolNotSupportedException;
 use PhpMqtt\Client\Exceptions\ProtocolViolationException;
 use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
@@ -21,7 +16,6 @@ class ApiMqttListener extends BaseApiMqtt
     public string $client = 'laravel_mqtt_api_publisher';
 
     /**
-     * @throws ConfigurationInvalidException
      */
     public function __construct()
     {

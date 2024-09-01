@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Mqtt;
 
-use PhpMqtt\Client\Exceptions\ConfigurationInvalidException;
-use PhpMqtt\Client\Exceptions\ConnectingToBrokerFailedException;
+use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Exceptions\DataTransferException;
-use PhpMqtt\Client\Exceptions\ProtocolNotSupportedException;
 use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
-use Illuminate\Support\Facades\Log;
 
 class ApiMqttPublisher extends BaseApiMqtt
 {
@@ -31,7 +28,7 @@ class ApiMqttPublisher extends BaseApiMqtt
      * @param string $message
      * @throws DataTransferException
      */
-    public function publish(string $topic, string $message)
+    public function publish(string $topic, string $message): void
     {
         try {
             $this->mqtt->publish($topic, $message, MqttClient::QOS_AT_MOST_ONCE);
