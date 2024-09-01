@@ -7,18 +7,15 @@ use PhpMqtt\Client\Exceptions\DataTransferException;
 use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
 
-class ApiMqttPublisher extends BaseApiMqtt
+class ApiMqttPublisher extends BaseApiMqtt implements ApiMqttPublisherInterface
 {
     public string $client = 'laravel_mqtt_api_publisher';
-
     /**
      */
     public function __construct()
     {
-        $correlationId = uniqid();
-        $this->clientId = $this->client . $correlationId;
+        $this->createCorrelationClientId();
         parent::__construct();
-
     }
 
     /**
@@ -50,5 +47,9 @@ class ApiMqttPublisher extends BaseApiMqtt
             Log::error('Error disconnecting from MQTT broker: ' . $e->getMessage());
             // Handle the exception as needed
         }
+    }
+    public function createCorrelationClientId(): void
+    {
+        $this->clientId = $this->client . uniqid();
     }
 }

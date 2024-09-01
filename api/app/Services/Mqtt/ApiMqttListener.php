@@ -10,7 +10,7 @@ use PhpMqtt\Client\Exceptions\ProtocolViolationException;
 use PhpMqtt\Client\Exceptions\RepositoryException;
 use PhpMqtt\Client\MqttClient;
 
-class ApiMqttListener extends BaseApiMqtt
+class ApiMqttListener extends BaseApiMqtt implements ApiMqttListenerInterface
 {
 
     public string $client = 'laravel_mqtt_api_publisher';
