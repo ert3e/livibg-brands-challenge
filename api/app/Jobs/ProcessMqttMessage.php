@@ -6,6 +6,7 @@ namespace App\Jobs;
 namespace App\Jobs;
 
 use App\Services\Mqtt\ApiMqttPublisher;
+use App\Services\TvShowService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,6 +14,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use PhpMqtt\Client\Exceptions\DataTransferException;
 
 class ProcessMqttMessage implements ShouldQueue
 {
@@ -35,33 +37,21 @@ class ProcessMqttMessage implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws DataTransferException
      */
-    public function handle()
+    public function handle(TvShowService $tvShowService, ApiMqttPublisher $mqttPublisher): void
     {
-        $this->mqttPublisher = new ApiMqttPublisher();
+
         $search = json_decode($this->message, true);
 
         $searchQuery = $search['query'];
         $correlationId = json_decode($this->message, true)['correlation_id'];
 
-        // Make the API request to search for the TV show
-        try {
-            $response = Http::get("https://api.tvmaze.com/search/shows?q=" . urlencode($searchQuery));
-        } catch (\Exception $e) {
-            Log::info('Failed to get search results for: ' . $searchQuery);
-            Log::info('Failed to get search results for: ' . $e->getMessage());
-        }
-        $results = $response->json();
-        // Filter results
-        $results = collect($results)
-            ->pluck('show')
-            ->filter(function ($show) use ($searchQuery) {
-                return strcasecmp($show['name'], $searchQuery) === 0;
-            })
-            ->values();
+        $results = $tvShowService->searchShows($searchQuery);
+
 
         // Publish the response back to the MQTT topic
-        $this->mqttPublisher->publish('response/tvshow', json_encode([
+        $mqttPublisher->publish('response/tvshow', json_encode([
                 'correlation_id' => $correlationId,
                 'results' => $results
             ])
