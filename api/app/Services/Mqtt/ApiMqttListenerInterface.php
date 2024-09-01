@@ -4,6 +4,5 @@ namespace App\Services\Mqtt;
 
 interface ApiMqttListenerInterface
 {
-    public function listen();
-
+    public function listen(string $chanel);
 }

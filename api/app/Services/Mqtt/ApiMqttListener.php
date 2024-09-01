@@ -29,10 +29,10 @@ class ApiMqttListener extends BaseApiMqtt implements ApiMqttListenerInterface
      * @throws RepositoryException
      * @throws DataTransferException
      */
-    public function listen(): void
+    public function listen($chanel): void
     {
        // ProcessMqttMessage::dispatch('test', $mqttPublisher);
-        $this->mqtt->subscribe('search/tvshow', function (string $topic, string $message)  {
+        $this->mqtt->subscribe($chanel, function (string $topic, string $message)  {
             // Dispatch the job with the received message
             logger()->info($topic . ': ' . $message);
             try {
