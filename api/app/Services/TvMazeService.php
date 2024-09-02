@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Actions\FetchTvMazeSearchShowAction;
-use App\Services\Mqtt\ApiMqttPublisher;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class TvMazeService implements TvShowServiceInterface
 {
@@ -21,8 +21,10 @@ class TvMazeService implements TvShowServiceInterface
     public function searchShows(string $request): array
     {
         $results = $this->fetchTvMazeShowAction->execute($request);
-
-        return $this->filterUniqShowByRequest($results, $request);
+        Log::info($results);
+        $array = $this->filterUniqShowByRequest($results, $request);
+        Log::info($array);
+        return $array;
     }
 
     public function filterUniqShowByRequest(Collection $results, string $request): array

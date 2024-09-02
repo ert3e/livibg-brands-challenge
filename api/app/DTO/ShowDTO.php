@@ -15,7 +15,7 @@ class ShowDTO extends Data
     public string $status;
     public ?int $runtime;
     public ?int $averageRuntime;
-    public string $premiered;
+    public ?string $premiered;
     public ?string $ended;
     public ?string $officialSite;
     public array $schedule;
@@ -24,7 +24,7 @@ class ShowDTO extends Data
     public ?array $network;
     public ?array $webChannel;
     public ?array $externals;
-    public ?object $image;
+    public ?array $image;
     public string $summary;
     public ?array $links;
 }
